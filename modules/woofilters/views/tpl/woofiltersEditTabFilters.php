@@ -25,7 +25,7 @@
 			<button id="wpfAddFilterButton" data-option='add' class="button button-small">
 				<span><?php esc_html_e('Add', 'woo-product-filter'); ?></span>
 			</button>
-			<button style-"margin-left:25px;" id="wpfAddAllAttributesButton" type="button" class="button button-small">
+			<button style="margin-left:25px;" id="wpfAddAllAttributesButton" type="button" class="button button-small">
 				<span><?php esc_html_e('Choose attributes', 'woo-product-filter'); ?></span>
 			</button>
 			<span data-option='pro' class="wpfProLabel wpfHidden"><a href="<?php echo esc_url($this->proLink); ?>" target="_blank"><?php esc_html_e('PRO Option', 'woo-product-filter'); ?></a></span>
