@@ -682,6 +682,40 @@ input.wpfSmallInput{
 #wpfImportWnd + .ui-dialog-buttonpane .ui-dialog-buttonset {
 	float: none;
 }
+
+#wpfAttributesPickerDialog {
+	overflow: hidden;
+}
+
+#wpfAttributesPickerDialog .wpfAttributesPickerActions {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+#wpfAttributesPickerDialog .wpfAttributesPickerList {
+	max-height: 420px;
+	overflow-y: auto;
+	padding-right: 6px;
+}
+
+#wpfAttributesPickerDialog .wpfAttributesPickerItem {
+	margin-bottom: 8px;
+}
+
+#wpfAttributesPickerDialog .wpfAttributesPickerItem label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+#wpfAttributesPickerDialog .wpfAttributesPickerItem.wpfDisabled {
+	opacity: 0.55;
+}
+
+.wpfAttributesPickerDialogShell.ui-dialog {
+	position: fixed !important;
+}
 #wpfImportInput{
 	color: #878787;
 }

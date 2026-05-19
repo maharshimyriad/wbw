@@ -180,6 +180,9 @@
 			autoOpen: false,
 			modal: true,
 			width: 520,
+			maxHeight: Math.min(jQuery(window).height() - 40, 640),
+			dialogClass: 'wpfAttributesPickerDialogShell',
+			position: { my: 'center', at: 'center', of: window },
 			create: function () {
 				jQuery(this).closest('.ui-dialog').addClass('woobewoo-plugin');
 			},
@@ -194,6 +197,15 @@
 			},
 			open: function () {
 				_this.syncAttributesPickerDialog();
+				_this.positionAttributesPickerDialog();
+				jQuery(window)
+					.off('resize.wpfAttributesPicker scroll.wpfAttributesPicker')
+					.on('resize.wpfAttributesPicker scroll.wpfAttributesPicker', function () {
+						_this.positionAttributesPickerDialog();
+					});
+			},
+			close: function () {
+				jQuery(window).off('resize.wpfAttributesPicker scroll.wpfAttributesPicker');
 			}
 		});
 
@@ -206,6 +218,18 @@
 			e.preventDefault();
 			$dialog.find('input[type="checkbox"]:enabled').prop('checked', false);
 		});
+	});
+
+	AdminPage.prototype.positionAttributesPickerDialog = (function () {
+		var $dialog = jQuery('#wpfAttributesPickerDialog');
+		if (!$dialog.length || !$dialog.dialog('isOpen')) {
+			return;
+		}
+
+		var maxHeight = Math.min(jQuery(window).height() - 40, 640);
+		$dialog.dialog('option', 'maxHeight', maxHeight);
+		$dialog.dialog('option', 'position', { my: 'center', at: 'center', of: window });
+		$dialog.closest('.ui-dialog').css('position', 'fixed');
 	});
 
 	AdminPage.prototype.getExistingAttributeFilters = (function () {
