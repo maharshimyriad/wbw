@@ -273,7 +273,7 @@
 				return true;
 			}
 
-			_this.wpfAddFilter('wpfAttribute', false, { f_list: value, f_enable: 1 }, { skipAttributeTermsLoad: true });
+			_this.wpfAddFilter('wpfAttribute', false, { f_list: value, f_enable: 1, f_show_count: 1 }, { skipAttributeTermsLoad: true });
 			existingAttributes[value] = true;
 			added++;
 		});
