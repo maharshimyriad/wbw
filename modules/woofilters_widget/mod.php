@@ -35,7 +35,7 @@ class Woofilters_WidgetWpf extends ModuleWpf {
 			FrameWpf::_()->addScript('notify-js', WPF_JS_PATH . 'notify.js', array(), false, true);
 			FrameWpf::_()->addScript('chosen.order.jquery.min.js', $modPath . 'js/chosen.order.jquery.min.js');
 			FrameWpf::_()->addJSVar('wp-color-picker', 'wpColorPickerL10n', array());
-			FrameWpf::_()->addScript('admin.filters', $modPath . 'js/admin.woofilters.js', array('wp-color-picker'));
+			FrameWpf::_()->addScript('admin.filters', $modPath . 'js/admin.woofilters.js', array('wp-color-picker'), filemtime( $this->getModDir() . 'js' . DS . 'admin.woofilters.js' ));
 			FrameWpf::_()->addScript('admin.wp.colorpicker.alhpa.js', WPF_JS_PATH . 'admin.wp.colorpicker.alpha.js', array('wp-color-picker'), WPF_VERSION);
 
 			FrameWpf::_()->addStyle('admin.filters', $modPath . 'css/admin.woofilters.css');
