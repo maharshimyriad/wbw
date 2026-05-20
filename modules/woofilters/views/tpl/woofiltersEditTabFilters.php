@@ -25,9 +25,6 @@
 			<button id="wpfAddFilterButton" data-option='add' class="button button-small">
 				<span><?php esc_html_e('Add', 'woo-product-filter'); ?></span>
 			</button>
-			<button style="margin-left:25px;" id="wpfAddAllAttributesButton" type="button" class="button button-small">
-				<span><?php esc_html_e('Choose attributes', 'woo-product-filter'); ?></span>
-			</button>
 			<span data-option='pro' class="wpfProLabel wpfHidden"><a href="<?php echo esc_url($this->proLink); ?>" target="_blank"><?php esc_html_e('PRO Option', 'woo-product-filter'); ?></a></span>
 			<span data-option='uniq' class="wpfProLabel wpfHidden"><?php esc_html_e('Already in the list', 'woo-product-filter'); ?></span>
 			<span data-option='group' class="wpfProLabel wpfHidden">
@@ -46,23 +43,6 @@
 	</div>
 
 		<div class="wpfTemplates wpfHidden">
-		<div id="wpfAttributesPickerDialog" title="<?php echo esc_attr__('Choose attributes', 'woo-product-filter'); ?>">
-			<div class="wpfAttributesPickerActions">
-				<button type="button" class="button button-small" data-action="select-all"><?php esc_html_e('Select all', 'woo-product-filter'); ?></button>
-				<button type="button" class="button button-small" data-action="clear-all"><?php esc_html_e('Clear', 'woo-product-filter'); ?></button>
-			</div>
-			<div class="wpfAttributesPickerList">
-				<?php foreach ( $attrDisplay as $attrValue => $attrLabel ) { ?>
-					<?php if ( empty( $attrValue ) || '0' === (string) $attrValue ) { continue; } ?>
-					<div class="wpfAttributesPickerItem">
-						<label>
-							<input type="checkbox" value="<?php echo esc_attr( $attrValue ); ?>">
-							<span><?php echo esc_html( $attrLabel ); ?></span>
-						</label>
-					</div>
-				<?php } ?>
-			</div>
-		</div>
 		<div class="wpfAttributesTerms">
 			<?php
 			echo '<input type="hidden" name="attr_types" value="' . esc_attr(UtilsWpf::jsonEncode($attrTypes)) . '">';

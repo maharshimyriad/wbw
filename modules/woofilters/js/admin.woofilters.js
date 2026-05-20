@@ -23,7 +23,6 @@
 		_thisObj.isElementorEditMode = typeof isElementorEditMode !== 'undefined' ? isElementorEditMode : 0;
 		_thisObj.eventsAdminPage();
 		_thisObj.eventsFilters();
-		_thisObj.setupAttributesPicker();
 		_thisObj.setupPriceByHands();
 		_thisObj.wpfWaitLoad = false;
 		_thisObj.filterIterator = 0;
@@ -166,127 +165,6 @@
 		}
 		sortablePrice();
 
-	});
-
-	AdminPage.prototype.setupAttributesPicker = (function () {
-		var _this = this.$obj,
-			$dialog = jQuery('#wpfAttributesPickerDialog');
-
-		if (!$dialog.length || $dialog.data('wpf-initialized')) {
-			return;
-		}
-
-		$dialog.data('wpf-initialized', 1).dialog({
-			autoOpen: false,
-			modal: true,
-			width: 520,
-			maxHeight: Math.min(jQuery(window).height() - 40, 640),
-			dialogClass: 'wpfAttributesPickerDialogShell',
-			position: { my: 'center', at: 'center', of: window },
-			create: function () {
-				jQuery(this).closest('.ui-dialog').addClass('woobewoo-plugin');
-			},
-			buttons: {
-				'Add selected': function () {
-					_this.addSelectedAttributesFromPopup();
-					jQuery(this).dialog('close');
-				},
-				Cancel: function () {
-					jQuery(this).dialog('close');
-				}
-			},
-			open: function () {
-				_this.syncAttributesPickerDialog();
-				_this.positionAttributesPickerDialog();
-				jQuery(window)
-					.off('resize.wpfAttributesPicker scroll.wpfAttributesPicker')
-					.on('resize.wpfAttributesPicker scroll.wpfAttributesPicker', function () {
-						_this.positionAttributesPickerDialog();
-					});
-			},
-			close: function () {
-				jQuery(window).off('resize.wpfAttributesPicker scroll.wpfAttributesPicker');
-			}
-		});
-
-		$dialog.off('click', '[data-action="select-all"]').on('click', '[data-action="select-all"]', function (e) {
-			e.preventDefault();
-			$dialog.find('input[type="checkbox"]:enabled').prop('checked', true);
-		});
-
-		$dialog.off('click', '[data-action="clear-all"]').on('click', '[data-action="clear-all"]', function (e) {
-			e.preventDefault();
-			$dialog.find('input[type="checkbox"]:enabled').prop('checked', false);
-		});
-	});
-
-	AdminPage.prototype.positionAttributesPickerDialog = (function () {
-		var $dialog = jQuery('#wpfAttributesPickerDialog');
-		if (!$dialog.length || !$dialog.dialog('isOpen')) {
-			return;
-		}
-
-		var maxHeight = Math.min(jQuery(window).height() - 40, 640);
-		$dialog.dialog('option', 'maxHeight', maxHeight);
-		$dialog.dialog('option', 'position', { my: 'center', at: 'center', of: window });
-		$dialog.closest('.ui-dialog').css('position', 'fixed');
-	});
-
-	AdminPage.prototype.getExistingAttributeFilters = (function () {
-		var existingAttributes = {};
-
-		jQuery('.wpfFiltersBlock .wpfFilter[data-filter="wpfAttribute"] select[name="f_list"]').each(function() {
-			var value = jQuery(this).val();
-			if (value && value !== '0' && value !== 'custom_meta_field_check') {
-				existingAttributes[value] = true;
-			}
-		});
-
-		return existingAttributes;
-	});
-
-	AdminPage.prototype.syncAttributesPickerDialog = (function () {
-		var existingAttributes = this.getExistingAttributeFilters(),
-			$dialog = jQuery('#wpfAttributesPickerDialog');
-
-		$dialog.find('input[type="checkbox"]').each(function() {
-			var $checkbox = jQuery(this),
-				value = $checkbox.val(),
-				$item = $checkbox.closest('.wpfAttributesPickerItem'),
-				used = !!existingAttributes[value];
-
-			$checkbox.prop('disabled', used).prop('checked', false);
-			$item.toggleClass('wpfDisabled', used);
-		});
-	});
-
-	AdminPage.prototype.addSelectedAttributesFromPopup = (function () {
-		var _this = this.$obj,
-			existingAttributes = _this.getExistingAttributeFilters(),
-			$dialog = jQuery('#wpfAttributesPickerDialog'),
-			added = 0;
-
-		$dialog.find('input[type="checkbox"]:checked:enabled').each(function() {
-			var value = jQuery(this).val();
-
-			if (!value || existingAttributes[value]) {
-				return true;
-			}
-
-			_this.wpfAddFilter('wpfAttribute', false, { f_list: value, f_enable: 1, f_show_count: 1 }, { skipAttributeTermsLoad: true });
-			existingAttributes[value] = true;
-			added++;
-		});
-
-		if (!added) {
-			return;
-		}
-
-		$dialog.find('input[type="checkbox"]').prop('checked', false);
-		jQuery('.wpfFiltersBlock').removeClass('wpfHidden');
-		jQuery('#wpfChooseFilters').trigger('change');
-		_this.saveFilters();
-		_this.getPreviewAjax();
 	});
 
 	AdminPage.prototype.initColorPicker = (function (colorResult) {
@@ -768,12 +646,6 @@
 			_this.wpfAddFilter(option.attr('value'));
 			resetEnabledFilters();
 			_this.getPreviewAjax();
-		});
-
-		jQuery('#wpfAddAllAttributesButton').off('click').on('click', function(e){
-			e.preventDefault();
-			_this.syncAttributesPickerDialog();
-			jQuery('#wpfAttributesPickerDialog').dialog('open');
 		});
 
 		//remove existing filter
